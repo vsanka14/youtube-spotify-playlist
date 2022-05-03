@@ -1,8 +1,15 @@
-import './style.css'
+import './style.css';
+import Spotify from './spotify';
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+const spotify = new Spotify([
+  'user-read-private',
+  'playlist-modify-public',
+  'playlist-modify-private',
+]);
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+const loginBtn = document.getElementById('loginBtn');
+loginBtn?.addEventListener('click', function () {
+  window.location.assign(spotify.authUrl);
+});
+
+spotify.getAccessToken();
