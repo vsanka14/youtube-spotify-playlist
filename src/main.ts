@@ -1,15 +1,26 @@
 import './style.css';
 import Spotify from './spotify';
 
-const spotify = new Spotify([
-  'user-read-private',
-  'playlist-modify-public',
-  'playlist-modify-private',
-]);
+(async function () {
+  const spotify = new Spotify([
+    'user-read-private',
+    'playlist-modify-public',
+    'playlist-modify-private',
+  ]);
 
-const loginBtn = document.getElementById('loginBtn');
-loginBtn?.addEventListener('click', function () {
-  window.location.assign(spotify.authUrl);
-});
+  const loginBtn = document.getElementById('loginBtn');
+  const loginSuccessMsg = document.getElementById('loginSuccessMsg');
 
-spotify.getAccessToken();
+  spotify.getAccessToken();
+  const resp = await spotify.getMe();
+
+  if (resp.ok) {
+    loginBtn?.remove();
+  } else {
+    loginSuccessMsg?.remove();
+  }
+
+  loginBtn?.addEventListener('click', function () {
+    window.location.assign(spotify.authUrl);
+  });
+})();

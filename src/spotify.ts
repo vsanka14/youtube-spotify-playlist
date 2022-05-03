@@ -1,7 +1,13 @@
 import API_ENDPOINTS from './endpoints';
 
+interface ApiResponse<T extends object> {
+  ok: boolean;
+  message?: string;
+  data?: T;
+}
+
 export default class Spotify {
-  accessToken = '';
+  accessToken: string = '';
 
   scopes: String[] = [];
 
@@ -10,22 +16,56 @@ export default class Spotify {
   }
 
   get authUrl() {
-    return API_ENDPOINTS.AUTHORIZE(this.scopes.join('%20'));
+    const scopesStr = this.scopes.join('%20');
+    return API_ENDPOINTS.AUTHORIZE(scopesStr);
+  }
+
+  get defaultHeaders() {
+    return {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    };
   }
 
   getAccessToken() {
     const { hash } = window.location;
-    if (!hash) return;
-
     const paramsArr = hash.substring(1).split('&');
     const params = paramsArr.reduce((prev, curr) => {
       const [key, value] = curr.split('=');
       prev[key] = value;
       return prev;
     }, {} as Record<string, string>);
+    this.accessToken = params.access_token || '';
+  }
 
-    console.log({ params });
+  async fetchApi(url: string) {
+    try {
+      const resp = await fetch(url, {
+        ...this.defaultHeaders,
+      });
+      const json = await resp.json();
+      if (json.error) {
+        return {
+          ok: false,
+          message: json.error.message,
+        };
+      }
+      return {
+        ok: true,
+        data: json,
+      };
+    } catch (err) {
+      console.error(err);
+      return {
+        ok: false,
+        message: 'Something went wrong!',
+      };
+    }
+  }
 
-    this.accessToken = params.access_token;
+  async getMe(): Promise<ApiResponse<object>> {
+    const me = await this.fetchApi(API_ENDPOINTS.ME);
+    return me;
   }
 }
