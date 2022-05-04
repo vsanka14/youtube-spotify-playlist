@@ -1,10 +1,5 @@
-import API_ENDPOINTS from './endpoints';
-
-interface ApiResponse<T extends object> {
-  ok: boolean;
-  message?: string;
-  data?: T;
-}
+import { SPOTIFY_ENDPOINTS } from './endpoints';
+import { ApiResponse } from './types';
 
 export default class Spotify {
   accessToken: string = '';
@@ -17,7 +12,7 @@ export default class Spotify {
 
   get authUrl() {
     const scopesStr = this.scopes.join('%20');
-    return API_ENDPOINTS.AUTHORIZE(scopesStr);
+    return SPOTIFY_ENDPOINTS.AUTHORIZE(scopesStr);
   }
 
   get defaultHeaders() {
@@ -65,7 +60,7 @@ export default class Spotify {
   }
 
   async getMe(): Promise<ApiResponse<object>> {
-    const me = await this.fetchApi(API_ENDPOINTS.ME);
+    const me = await this.fetchApi(SPOTIFY_ENDPOINTS.ME);
     return me;
   }
 }
