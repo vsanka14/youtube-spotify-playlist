@@ -13,7 +13,6 @@ import YouTube from 'youtube-spotify-playlist/services/youtube';
 
   spotify.getAccessToken();
   await spotify.getMe();
-  console.log({ me: spotify.me });
 
   await youtube.fetchPlaylistItems('PL4o_8rq4jbYXy3AkXi0c_SXV_iC_qnDoy');
 
