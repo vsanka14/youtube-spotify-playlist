@@ -1,4 +1,4 @@
-import { YoutubeVideoSnippetType } from './youtube-video-snippet';
+import { YoutubeVideoSnippetType } from 'youtube-spotify-playlist/models/youtube-video-snippet';
 
 export type HasSnippet = { snippet: YoutubeVideoSnippetType };
 

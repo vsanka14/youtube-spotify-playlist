@@ -8,10 +8,13 @@ type Class<T> = new (...args: any[]) => T;
 
 export default async function fetchApi<T>(
   url: string,
-  from: Class<T>
+  from: Class<T>,
+  headers?: object
 ): Promise<ApiResponse<T>> {
   try {
-    const resp = await fetch(url);
+    const resp = await fetch(url, {
+      headers: { ...headers },
+    });
     const json = await resp.json();
     if (json.error) {
       return {

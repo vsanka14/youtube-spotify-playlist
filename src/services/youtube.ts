@@ -1,14 +1,14 @@
-import { YOUTUBE_ENDPOINTS } from '../endpoints';
-import fetchApi from '../utils/fetch-api';
+import { YOUTUBE_ENDPOINTS } from 'youtube-spotify-playlist/constants/youtube-endpoints';
+import fetchApi from 'youtube-spotify-playlist/utils/fetch-api';
 import YoutubeVideoSnippet, {
   YoutubeVideoSnippetType,
-} from '../models/youtube-video-snippet';
+} from 'youtube-spotify-playlist/models/youtube-video-snippet';
 import YoutubePlaylistResponse, {
   YoutubePlaylistResponseType,
-} from '../models/youtube-playlist-response';
+} from 'youtube-spotify-playlist/models/youtube-playlist-response';
 import YoutubePlaylistItemResponse, {
   YoutubePlaylistItemResponseType,
-} from '../models/youtube-playlist-item-response';
+} from 'youtube-spotify-playlist/models/youtube-playlist-item-response';
 
 export default class YouTube {
   videos: Array<YoutubeVideoSnippetType> = [];

@@ -1,6 +1,6 @@
-import './style.css';
-import Spotify from './spotify';
-import YouTube from './youtube';
+import 'youtube-spotify-playlist/style.css';
+import Spotify from 'youtube-spotify-playlist/services/spotify';
+import YouTube from 'youtube-spotify-playlist/services/youtube';
 
 (async function () {
   const spotify = new Spotify([
@@ -11,20 +11,13 @@ import YouTube from './youtube';
 
   const youtube = new YouTube();
 
-  const loginBtn = document.getElementById('loginBtn');
-  const loginSuccessMsg = document.getElementById('loginSuccessMsg');
-
   spotify.getAccessToken();
-  const resp = await spotify.getMe();
+  await spotify.getMe();
+  console.log({ me: spotify.me });
 
   await youtube.fetchPlaylistItems('PL4o_8rq4jbYXy3AkXi0c_SXV_iC_qnDoy');
 
-  if (resp.ok) {
-    loginBtn?.remove();
-  } else {
-    loginSuccessMsg?.remove();
-  }
-
+  const loginBtn = document.getElementById('loginBtn');
   loginBtn?.addEventListener('click', function () {
     window.location.assign(spotify.authUrl);
   });
