@@ -1,4 +1,4 @@
-import { SpotifyTrackItemType } from './spotify-track-item';
+import { SpotifyTrackItemType } from 'youtube-spotify-playlist/models/spotify-track-item';
 
 export type SpotifyTrackItems = {
   items: Array<SpotifyTrackItemType>;

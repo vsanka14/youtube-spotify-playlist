@@ -1,7 +1,7 @@
 import 'youtube-spotify-playlist/style.css';
 import Spotify from 'youtube-spotify-playlist/services/spotify';
 import YouTube from 'youtube-spotify-playlist/services/youtube';
-import SpotifyTrackItem from './models/spotify-track-item';
+import SpotifyTrackItem from 'youtube-spotify-playlist/models/spotify-track-item';
 
 (async function () {
   const spotify = new Spotify([
