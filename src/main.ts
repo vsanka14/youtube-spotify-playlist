@@ -1,9 +1,12 @@
 import 'youtube-spotify-playlist/style.css';
 import Spotify from 'youtube-spotify-playlist/services/spotify';
 import YouTube from 'youtube-spotify-playlist/services/youtube';
-import SpotifyTrackItem from 'youtube-spotify-playlist/models/spotify-track-item';
+import { SpotifyTrackType } from 'youtube-spotify-playlist/models/spotify-track';
+import HiMom from './components/hi-mom';
 
 (async function () {
+  customElements.define('hi-mom', HiMom);
+
   const spotify = new Spotify([
     'user-read-private',
     'playlist-modify-public',
@@ -21,9 +24,10 @@ import SpotifyTrackItem from 'youtube-spotify-playlist/models/spotify-track-item
       prev[curr.id] = res;
     });
     return prev;
-  }, {} as Record<string, SpotifyTrackItem | undefined>);
+  }, {} as Record<string, SpotifyTrackType | undefined>);
 
   console.log({ searchResults });
+
   const loginBtn = document.getElementById('loginBtn');
   loginBtn?.addEventListener('click', function () {
     window.location.assign(spotify.authUrl);

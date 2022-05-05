@@ -6,12 +6,10 @@ import SpotifyMeResponse, {
 import SpotifyTracksReponse, {
   SpotifyTracksReponseType,
 } from 'youtube-spotify-playlist/models/spotify-tracks-response';
-import SpotifyTrackItem from 'youtube-spotify-playlist/models/spotify-track-item';
+import SpotifyTrack from 'youtube-spotify-playlist/models/spotify-track';
 
 export default class Spotify {
   scopes: String[] = [];
-
-  me: SpotifyMeResponseType | undefined;
 
   constructor(scopes: String[]) {
     this.scopes = scopes;
@@ -62,7 +60,7 @@ export default class Spotify {
       headers: this.defaultHeaders,
     });
     if (!resp.data) return;
-    this.me = resp.data;
+    return resp.data;
   }
 
   async searchForTrack(query: string) {
@@ -81,6 +79,6 @@ export default class Spotify {
 
     if (!tracks.tracks.items.length) return;
 
-    return new SpotifyTrackItem(tracks.tracks.items[0]);
+    return new SpotifyTrack(tracks.tracks.items[0]);
   }
 }
