@@ -6,11 +6,15 @@ export interface ApiResponse<T> {
 
 type Class<T> = new (...args: any[]) => T;
 
-export default async function fetchApi<T>(
-  url: string,
-  from: Class<T>,
-  headers?: object
-): Promise<ApiResponse<T>> {
+export default async function fetchApi<T>({
+  url,
+  from,
+  headers,
+}: {
+  url: string;
+  from?: Class<T>;
+  headers?: object;
+}): Promise<ApiResponse<T>> {
   try {
     const resp = await fetch(url, {
       headers: { ...headers },
@@ -24,7 +28,7 @@ export default async function fetchApi<T>(
     }
     return {
       ok: true,
-      data: new from(json),
+      data: from ? new from(json) : json,
     };
   } catch (err) {
     console.error(

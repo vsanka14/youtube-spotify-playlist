@@ -11,6 +11,7 @@ export type HasMediumThumbnail = { medium: Thumbnail };
 export type HasHighThumbnail = { high: Thumbnail };
 
 export type YoutubeVideoSnippetType = {
+  id: string;
   title: string;
   description: string;
   thumbnails: HasDefaultThumbnail & HasMediumThumbnail & HasHighThumbnail;
@@ -19,6 +20,7 @@ export type YoutubeVideoSnippetType = {
 };
 
 export default class YoutubeVideoSnippet {
+  id: string;
   title: string;
   description: string;
   thumbnails: HasDefaultThumbnail & HasMediumThumbnail & HasHighThumbnail;
@@ -26,12 +28,14 @@ export default class YoutubeVideoSnippet {
   videoOwnerChannelId: string;
 
   constructor({
+    id,
     title,
     description,
     thumbnails,
     channelTitle,
     videoOwnerChannelId,
   }: YoutubeVideoSnippetType) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.thumbnails = thumbnails;

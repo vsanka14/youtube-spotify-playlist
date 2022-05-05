@@ -15,10 +15,10 @@ export default class YouTube {
 
   async fetchPlaylistItem(id: string) {
     const url = YOUTUBE_ENDPOINTS.PLAYLIST_ITEM(id);
-    const resp = await fetchApi<YoutubePlaylistItemResponseType>(
+    const resp = await fetchApi<YoutubePlaylistItemResponseType>({
       url,
-      YoutubePlaylistItemResponse
-    );
+      from: YoutubePlaylistItemResponse,
+    });
 
     if (!resp.data) return;
 
@@ -29,10 +29,10 @@ export default class YouTube {
   async fetchPlaylistItems(playlistId: string, pageToken?: string) {
     const snippets: Array<YoutubeVideoSnippetType> = [];
     const url = YOUTUBE_ENDPOINTS.PLAYLIST(playlistId, 50, pageToken);
-    const resp = await fetchApi<YoutubePlaylistResponseType>(
+    const resp = await fetchApi<YoutubePlaylistResponseType>({
       url,
-      YoutubePlaylistResponse
-    );
+      from: YoutubePlaylistResponse,
+    });
 
     if (!resp.data) return;
 
@@ -41,7 +41,7 @@ export default class YouTube {
     for (const item of items) {
       const snippet = await this.fetchPlaylistItem(item.id);
       if (snippet) {
-        snippets.push(new YoutubeVideoSnippet(snippet));
+        snippets.push(new YoutubeVideoSnippet({ ...snippet, id: item.id }));
       }
     }
 

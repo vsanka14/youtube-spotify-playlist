@@ -8,4 +8,6 @@ export const SPOTIFY_ENDPOINTS = {
   AUTHORIZE: (scopes: string) =>
     `${spotifyAuthorizeEndpoint}?client_id=${spotifyClientId}&redirect_uri=${spotifyRedirectUrl}&scope=${scopes}&response_type=token&show_dialog=true`,
   ME: `${spotifyBaseUrl}/me`,
+  SEARCH: (query: string, limit: number = 1) =>
+    `${spotifyBaseUrl}/search?q=${query}&type=track&limit=${limit}`,
 };
