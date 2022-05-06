@@ -5,9 +5,9 @@ const spotifyRedirectUrl = import.meta.env.VITE_REDIRECT_URI_AFTER_LOGIN;
 const spotifyBaseUrl = import.meta.env.VITE_SPOTIFY_BASE_URL;
 
 export const SPOTIFY_ENDPOINTS = {
-  AUTHORIZE: (scopes: string) =>
+  AUTHORIZE: (scopes) =>
     `${spotifyAuthorizeEndpoint}?client_id=${spotifyClientId}&redirect_uri=${spotifyRedirectUrl}&scope=${scopes}&response_type=token&show_dialog=true`,
   ME: `${spotifyBaseUrl}/me`,
-  SEARCH: (query: string, limit: number = 1) =>
+  SEARCH: (query, limit = 1) =>
     `${spotifyBaseUrl}/search?q=${query}&type=track&limit=${limit}`,
 };

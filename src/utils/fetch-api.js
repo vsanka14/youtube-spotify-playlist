@@ -1,20 +1,4 @@
-export interface ApiResponse<T> {
-  ok: boolean;
-  message?: string;
-  data?: T;
-}
-
-type Class<T> = new (...args: any[]) => T;
-
-export default async function fetchApi<T>({
-  url,
-  from,
-  headers,
-}: {
-  url: string;
-  from?: Class<T>;
-  headers?: object;
-}): Promise<ApiResponse<T>> {
+export default async function fetchApi({ url, from, headers }) {
   try {
     const resp = await fetch(url, {
       headers: { ...headers },
@@ -37,7 +21,7 @@ export default async function fetchApi<T>({
     );
     return {
       ok: false,
-      message: 'Something went wrong!',
+      message: "Something went wrong!",
     };
   }
 }
