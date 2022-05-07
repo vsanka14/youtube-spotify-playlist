@@ -7,15 +7,16 @@ import YoutubePlaylistItemResponse from "../models/youtube-playlist-item-respons
 export default class YouTube {
   videos = [];
 
+  get isNoVideosFound() {
+    return this.videos.length === 0;
+  }
+
   async fetchPlaylistItem(id) {
     const url = YOUTUBE_ENDPOINTS.PLAYLIST_ITEM(id);
-    const resp =
-      (await fetchApi) <
-      YoutubePlaylistItemResponseType >
-      {
-        url,
-        from: YoutubePlaylistItemResponse,
-      };
+    const resp = await fetchApi({
+      url,
+      from: YoutubePlaylistItemResponse,
+    });
 
     if (!resp.ok) return;
 
@@ -26,13 +27,10 @@ export default class YouTube {
   async fetchPlaylistItems(playlistId, pageToken) {
     const snippets = [];
     const url = YOUTUBE_ENDPOINTS.PLAYLIST(playlistId, 50, pageToken);
-    const resp =
-      (await fetchApi) <
-      YoutubePlaylistResponseType >
-      {
-        url,
-        from: YoutubePlaylistResponse,
-      };
+    const resp = await fetchApi({
+      url,
+      from: YoutubePlaylistResponse,
+    });
 
     if (!resp.ok) return;
 
@@ -49,3 +47,5 @@ export default class YouTube {
     }
   }
 }
+
+export const youtube = new YouTube();

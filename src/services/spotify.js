@@ -47,14 +47,11 @@ export default class Spotify {
   }
 
   async getMe() {
-    const resp =
-      (await fetchApi) <
-      SpotifyMeResponseType >
-      {
-        url: SPOTIFY_ENDPOINTS.ME,
-        from: SpotifyMeResponse,
-        headers: this.defaultHeaders,
-      };
+    const resp = await fetchApi({
+      url: SPOTIFY_ENDPOINTS.ME,
+      from: SpotifyMeResponse,
+      headers: this.defaultHeaders,
+    });
 
     if (!resp.ok) return;
 
@@ -64,14 +61,11 @@ export default class Spotify {
   async searchForTrack(query) {
     query = this.sanitizeQuery(query);
     const url = SPOTIFY_ENDPOINTS.SEARCH(query);
-    const resp =
-      (await fetchApi) <
-      SpotifyTracksReponseType >
-      {
-        url,
-        from: SpotifyTracksReponse,
-        headers: this.defaultHeaders,
-      };
+    const resp = await fetchApi({
+      url,
+      from: SpotifyTracksReponse,
+      headers: this.defaultHeaders,
+    });
 
     if (!resp.ok) return;
 

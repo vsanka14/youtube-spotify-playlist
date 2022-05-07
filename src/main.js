@@ -1,6 +1,8 @@
 import "twind/shim";
-import YoutubeToSpotify from "./components/youtube-to-spotify";
-import PlaylistInputForm from "./components/playlist-input-form";
+import MainApp from "./components/main-app";
+import StepZero from "./components/step-zero";
+import StepOne from "./components/step-one";
 
-customElements.define("youtube-to-spotify", YoutubeToSpotify);
-customElements.define("playlist-input-form", PlaylistInputForm);
+customElements.define("main-app", MainApp);
+customElements.define("step-zero", StepZero);
+customElements.define("step-one", StepOne);
