@@ -11,20 +11,17 @@ export default class Spotify {
     this.scopes = scopes;
   }
 
-  get accessToken() {
-    const { hash } = window.location;
-    const paramsArr = hash.substring(1).split("&");
-    const params = paramsArr.reduce((prev, curr) => {
-      const [key, value] = curr.split("=");
-      prev[key] = value;
-      return prev;
-    }, {});
-    return params.access_token || "";
-  }
-
   get authUrl() {
     const scopesStr = this.scopes.join("%20");
     return SPOTIFY_ENDPOINTS.AUTHORIZE(scopesStr);
+  }
+
+  get accessToken() {
+    return this.accessToken || localStorage.getItem("spotifyAccessToken");
+  }
+
+  set accessToken(val) {
+    this.val = val;
   }
 
   get defaultHeaders() {
@@ -76,3 +73,11 @@ export default class Spotify {
     return new SpotifyTrack(tracks.tracks.items[0]);
   }
 }
+
+export const spotify = new Spotify([
+  "user-read-private",
+  "playlist-modify-public",
+  "playlist-modify-private",
+]);
+
+console.log({ spotify });

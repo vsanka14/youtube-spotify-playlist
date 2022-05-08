@@ -1,9 +1,6 @@
-import template from "./main-app.html?raw";
 import getUrlParams from "../utils/get-url-params";
 
 export default class MainApp extends HTMLElement {
-  containerEl;
-
   constructor() {
     super();
     window.addEventListener("popstate", () => this.render());
@@ -17,27 +14,30 @@ export default class MainApp extends HTMLElement {
   }
 
   render() {
-    const containerEl = this.querySelector("[data-test-container]");
-    containerEl.firstElementChild?.remove();
+    this.firstElementChild?.remove();
 
     const params = getUrlParams(window.location.search);
     const step = params?.step;
-    const playlistId = params?.playlistId || "";
 
     if (!step) {
-      const stepZeroEl = document.createElement("step-zero");
-      containerEl.append(stepZeroEl);
+      const stepZeroEl = document.createElement("step-three");
+      this.append(stepZeroEl);
     }
 
     if (step === "1") {
-      const stepOneEl = document.createElement("step-one");
-      stepOneEl.setAttribute("playlistId", playlistId);
-      containerEl.append(stepOneEl);
+      const stepOneEl = document.createElement("step-four");
+      this.append(stepOneEl);
     }
   }
 
   connectedCallback() {
-    this.innerHTML = template;
+    this.classList.add(
+      "w-1/2",
+      "h-full",
+      "flex",
+      "justify-center",
+      "items-center"
+    );
     this.render();
   }
 }

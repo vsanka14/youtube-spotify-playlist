@@ -1,7 +1,7 @@
-import template from "./step-zero.html?raw";
-import getUrlParams from "../utils/get-url-params";
-import updateUrlParams from "../utils/update-url-params";
+import template from "./step-four.html?raw";
 import { youtube } from "../services/youtube";
+import { spotify } from "../services/spotify";
+import getUrlParams from "../utils/get-url-params";
 
 const ERROR_MESSAGES = {
   INVALID_URL: "Please enter a valid URL.",
@@ -10,26 +10,32 @@ const ERROR_MESSAGES = {
   NO_VIDEOS_FOUND: "Could not retrieve videos for the playlist. :(",
 };
 
-export default class StepZero extends HTMLElement {
-  playlistInputEl;
-
-  errorMessageEl;
-
-  constructor() {
-    super();
-    this.addEventListener("submit", this.onSubmit);
-  }
-
-  async onSubmit(e) {
-    e.preventDefault();
-    const playilstUrlValue = this.playlistInputEl.value;
-    this.validateInput(playilstUrlValue);
-  }
+export default class StepFour extends HTMLElement {
+  playlistId;
 
   connectedCallback() {
+    this.classList.add("w-full", "h-full");
     this.innerHTML = template;
-    this.playlistInputEl = this.querySelector("[data-playilst-url]");
+    this.playlistInputEl = this.querySelector("[data-playlist-url]");
     this.playlistInputEl.addEventListener("keydown", () => this.renderError());
+    const submitBtn = this.querySelector("[data-submit-btn]");
+    submitBtn.addEventListener("click", () => this.onSubmit());
+  }
+
+  async onSubmit() {
+    const playilstUrlValue = this.playlistInputEl.value;
+    this.validateInput(playilstUrlValue);
+    if (this.playlistId) {
+      console.log(this.playlistId);
+      await youtube.fetchPlaylistItems(this.playlistId);
+      const searchResults = youtube.videos.reduce((prev, curr) => {
+        spotify.searchForTrack(curr.title).then((res) => {
+          prev[curr.id] = res;
+        });
+        return prev;
+      }, {});
+      console.log({ searchResults });
+    }
   }
 
   renderError(errorMessage) {
@@ -63,7 +69,7 @@ export default class StepZero extends HTMLElement {
       }
 
       errorMessage = "";
-      updateUrlParams({ step: 1, playlistId });
+      this.playlistId = playlistId;
     } catch (err) {
       console.error(err);
       errorMessage = ERROR_MESSAGES.INVALID_URL;
